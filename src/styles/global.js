@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import 'rc-slider/assets/index.css';
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -18,6 +19,11 @@ const GlobalStyles = createGlobalStyle`
     background: #181818;
     font-family: 'Montserrat', sans-serif;
     color: #fff;
+  }
+
+  button {
+    background: none;
+    border: none;
   }
 `;
 

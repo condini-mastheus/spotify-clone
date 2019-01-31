@@ -1,15 +1,34 @@
 import React, { Component } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 import GlobalStyles from './styles/global';
 
+import Sidebar from './components/Sidebar';
+import Player from './components/Player';
+import Header from './components/Header';
+
+import { Wrapper, Container, Content } from './styles/components';
+
+import Routes from './routes';
+
 class App extends Component {
+  componentDidMount() {}
+
   render() {
     return (
-      <div>
-        <GlobalStyles />
-        <h1>Deu certo!</h1>
-        <div className="App" />
-      </div>
+      <BrowserRouter>
+        <Wrapper>
+          <GlobalStyles />
+          <Container>
+            <Sidebar />
+            <Content>
+              <Header />
+              <Routes />
+            </Content>
+          </Container>
+          <Player />
+        </Wrapper>
+      </BrowserRouter>
     );
   }
 }
