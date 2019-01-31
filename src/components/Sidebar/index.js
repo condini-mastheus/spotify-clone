@@ -13,10 +13,10 @@ export default class Sidebar extends Component {
         <div className="wrap">
           <Nav main>
             <li>
-              <a href="">Navegar</a>
+              <a href="#test">Navegar</a>
             </li>
             <li>
-              <a href="">Rádio</a>
+              <a href="#test">Rádio</a>
             </li>
           </Nav>
 
@@ -25,31 +25,31 @@ export default class Sidebar extends Component {
               <span>SUA BIBLIOTECA</span>
             </li>
             <li>
-              <a href="">Seu Daily Mix</a>
+              <a href="#test">Seu Daily Mix</a>
             </li>
             <li>
-              <a href="">Tocados Recentemente</a>
+              <a href="#test">Tocados Recentemente</a>
             </li>
             <li>
-              <a href="">Músicas</a>
+              <a href="#test">Músicas</a>
             </li>
             <li>
-              <a href="">Albúms</a>
+              <a href="#test">Albúms</a>
             </li>
             <li>
-              <a href="">Artistas</a>
+              <a href="#test">Artistas</a>
             </li>
             <li>
-              <a href="">Estações</a>
+              <a href="#test">Estações</a>
             </li>
             <li>
-              <a href="">Arquivos locais</a>
+              <a href="#test">Arquivos locais</a>
             </li>
             <li>
-              <a href="">Vídeos</a>
+              <a href="#test">Vídeos</a>
             </li>
             <li>
-              <a href="">Podcasts</a>
+              <a href="#test">Podcasts</a>
             </li>
           </Nav>
 
@@ -58,17 +58,17 @@ export default class Sidebar extends Component {
               <span>Playlists</span>
             </li>
             <li>
-              <a href="">Playlist #1</a>
+              <a href="#test">Playlist #1</a>
             </li>
             <li>
-              <a href="">Playlist #2</a>
+              <a href="#test">Playlist #2</a>
             </li>
           </Nav>
         </div>
 
         <NewPlaylist>
           <img src={addPlaylistIcon} alt="Nova Playlist" />
-          Nova playlist
+          Nova Playlist
         </NewPlaylist>
       </Container>
     );
