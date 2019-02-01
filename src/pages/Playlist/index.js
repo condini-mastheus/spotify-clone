@@ -1,113 +1,148 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 
-import {
-  Container, PlaylistInfo, Info, Medias,
-} from './styles';
+import { Creators as PlaylistDetailsActions } from '../../store/ducks/playlistDetails';
+
+import Loading from '../../components/Loading';
+
+import { Container, Header, Medias } from './styles';
 
 import clockIcon from '../../assets/images/clock.svg';
 import plusIcon from '../../assets/images/plus.svg';
-import playIcon from '../../assets/images/play.svg';
-import volumeIcon from '../../assets/images/volume.svg';
+// import playIcon from '../../assets/images/play.svg';
+// import volumeIcon from '../../assets/images/volume.svg';
 
-export default class Playlist extends Component {
-  componentDidMount() {}
+class Playlist extends Component {
+  static propTypes = {
+    getPlaylistsDetailsRequest: PropTypes.func.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }).isRequired,
+    playlistDetails: PropTypes.shape({
+      isLoading: PropTypes.bool,
+      data: PropTypes.shape({
+        thumbnail: PropTypes.string,
+        title: PropTypes.string,
+        description: PropTypes.string,
+        songs: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.number,
+            title: PropTypes.string,
+            author: PropTypes.string,
+            album: PropTypes.string,
+          }),
+        ),
+      }),
+    }).isRequired,
+  };
 
-  render() {
+  componentDidMount() {
+    this.loadPlaylistDetails();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.id !== this.props.match.params.id) {
+      this.loadPlaylistDetails();
+    }
+  }
+
+  loadPlaylistDetails = () => {
+    const { id } = this.props.match.params;
+    const { getPlaylistsDetailsRequest } = this.props;
+
+    getPlaylistsDetailsRequest(id);
+  };
+
+  renderDetails = () => {
+    const playlist = this.props.playlistDetails.data;
+
     return (
       <Container>
-        <PlaylistInfo>
-          <img
-            src="https://img1-placeit-net.s3-accelerate.amazonaws.com/uploads/stage/stage_image/21041/large_thumb_473-Techo-CD-Album-Cover.jpg"
-            alt="Img"
-          />
+        <Header>
+          <img src={playlist.thumbnail} alt={playlist.title} />
 
-          <Info>
+          <div>
             <span>PLAYLIST</span>
-            <h1>Title of Playlist</h1>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac consequat urna.
-              Donec tempus commodo urna. Nunc gravida mi ligula, eget tincidunt elit tempus et.
-              Vestibulum blandit tincidunt sagittis.
-            </p>
+            <h1>{playlist.title}</h1>
+            <p>{playlist.description}</p>
             <span className="additional">
               Created by
               {' '}
               <a href="#2">Matheus Condini</a>
               {' '}
-• 19 songs, 1 h 19 min
+•
+              {' '}
+              {!!playlist.songs && playlist.songs.length}
+              {' '}
+songs, 1 h 19 min
             </span>
-          </Info>
-        </PlaylistInfo>
 
-        <Medias border="0" cellpadding="0" cellspacing="0">
+            <button type="button">Play</button>
+          </div>
+        </Header>
+
+        <Medias cellPadding={0} cellSpacing={0} border={0}>
           <thead>
             <tr>
-              <th>
-                <span />
-              </th>
-              <th>
-                <span />
-              </th>
-              <th>
-                <span>Title</span>
-              </th>
-              <th>
-                <span>Artist</span>
-              </th>
-              <th>
-                <span>Album</span>
-              </th>
-              <th>
-                <span>Added at</span>
-              </th>
+              <th />
+              <th>Title</th>
+              <th>Artist</th>
+              <th>Album</th>
+              <th>Added at</th>
               <th>
                 <img src={clockIcon} alt="Duration" />
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="play">
-                <img src={playIcon} alt="Duration" />
-              </td>
-              <td>
-                <img src={plusIcon} alt="Duration" />
-              </td>
-              <td>APESHIT</td>
-              <td>THE CARTERS</td>
-              <td>EVERTHING IS LOVE</td>
-              <td>2018-03-21</td>
-              <td>1:45</td>
-            </tr>
-            <tr className="listening">
-              <td className="play">
-                <img src={volumeIcon} alt="Duration" />
-              </td>
-              <td>
-                <img src={plusIcon} alt="Duration" />
-              </td>
-              <td>Dear Black Santa</td>
-              <td>Dax</td>
-              <td>Dear Black Santa</td>
-              <td>2018-03-21</td>
-              <td>17:45</td>
-            </tr>
-            <tr>
-              <td className="play">
-                <img src={volumeIcon} alt="Duration" />
-              </td>
-              <td>
-                <img src={plusIcon} alt="Duration" />
-              </td>
-              <td>This is America</td>
-              <td>Childshi Gambino</td>
-              <td>This is America</td>
-              <td>2018-03-21</td>
-              <td>4:45</td>
-            </tr>
+            {!playlist.songs ? (
+              <tr>
+                <td colSpan={5}>Nenhuma música cadastrada</td>
+              </tr>
+            ) : (
+              playlist.songs.map(media => (
+                <tr key={media.id}>
+                  <td>
+                    <img src={plusIcon} alt="Adicionar" />
+                  </td>
+                  <td>{media.title}</td>
+                  <td>{media.author}</td>
+                  <td>{media.album}</td>
+                  <td>2018-03-21</td>
+                  <td>4:45</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </Medias>
       </Container>
     );
+  };
+
+  render() {
+    const { playlistDetails } = this.props;
+
+    return playlistDetails.isLoading ? (
+      <Container loading>
+        <Loading />
+      </Container>
+    ) : (
+      this.renderDetails()
+    );
   }
 }
+
+const mapStateToProps = state => ({
+  playlistDetails: state.playlistDetails,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(PlaylistDetailsActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Playlist);

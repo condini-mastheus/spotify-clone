@@ -1,69 +1,87 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+import { Spinner } from '../../components/Loading/styles';
 
 export const Container = styled.div`
-  flex: 1;
-  margin-top: 60px;
-  display: flex;
-  flex-direction: column;
+  margin-top: 30px;
+
+  ${Spinner} {
+    img {
+      height: 48px;
+    }
+  }
+
+  ${props => props.loading
+    && css`
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `}
 `;
 
-export const PlaylistInfo = styled.div`
+export const Header = styled.header`
   display: flex;
-  align-items: flex-start;
   align-items: center;
 
   img {
     width: 220px;
     height: 220px;
   }
-`;
 
-export const Info = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 20px;
+  div {
+    margin-left: 20px;
 
-  h1 {
-    font-size: 48px;
-    color: #fff;
-  }
+    span {
+      font-size: 11px;
+      text-transform: uppercase;
+      line-height: 22px;
+      letter-spacing: 1.11px;
+    }
 
-  span {
-    font-size: 11px;
-    text-transform: uppercase;
-    line-height: 22px;
-    letter-spacing: 1.11px;
-  }
+    .additional {
+      letter-spacing: normal;
+      font-size: 12px;
+      text-transform: initial;
+      line-height: 22px;
+      color: #b3b3b3;
+      display: block;
+      margin-top: 10px;
+    }
 
-  .additional {
-    letter-spacing: normal;
-    font-size: 12px;
-    text-transform: initial;
-    line-height: 22px;
-    color: #b3b3b3;
-  }
+    h1 {
+      font-size: 48px;
+      margin-top: 10px;
+      color: #fff;
+    }
 
-  p {
-    color: #b3b3b3;
-    font-size: 11px;
-    line-height: 16px;
-    text-align: justify;
-    margin: 10px 0;
-  }
+    p {
+      color: #b3b3b3;
+      font-size: 12px;
+      line-height: 16px;
+      text-align: justify;
+      margin: 10px 0 0 0;
+    }
 
-  a {
-    color: #fff;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
+    button {
+      background: #1db854;
+      height: 32px;
+      border-radius: 16px;
+      color: #fff;
+      line-height: 32px;
+      padding: 0 35px;
+      border: none;
+      margin-top: 10px;
+      font-size: 11px;
+      letter-spacing: 1.11px;
+      text-transform: uppercase;
     }
   }
 `;
 
 export const Medias = styled.table`
   margin-top: 60px;
+  text-align: left;
   width: 100%;
   font-size: 0;
   border: none;
@@ -75,80 +93,56 @@ export const Medias = styled.table`
     border-bottom: 1px solid #282828;
     vertical-align: middle;
     text-align: left;
-    padding: 10px;
+    padding: 5px 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.11px;
+    font-weight: 300;
+    color: #b3b3b3;
 
-    &:first-child {
+    &:last-child {
       text-align: right;
-      width: 45px;
-      visibily
-    }
-    &:nth-child(2) {
-      text-align: right;
-      width: 40px;
-    }
-
-    span {
-      font-size: 10px;
-      text-transform: uppercase;
-      line-height: 22px;
-      letter-spacing: 1.11px;
-      font-weight: 300;
-      color: #b3b3b3;
     }
   }
-
 
   tbody {
     tr {
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
 
       &.listening {
-
         td {
           color: #1ed760;
         }
+      }
+    }
 
-        td.play {
-          img {
-            visibility: visible !important;
-          }
+    td {
+      border-bottom: 1px solid #282828;
+      padding: 0 10px;
+      line-height: 40px;
+      text-align: left;
+      font-size: 13px;
+
+      &:first-child {
+        width: 80px;
+        text-align: right;
+        img {
+          position: relative;
+          top: 2px;
         }
       }
 
-      &:hover {
-        background: rgba(255, 255, 255, .05);
+      &:last-child {
+        text-align: right;
+      }
 
-        td.play {
-          img {
-            visibility: visible;
-          }
+      &.play {
+        img {
+          visibility: hidden;
         }
       }
     }
-  }
-
-  td {
-    &:first-child {
-      text-align: center;
-
-      img {
-        width: 25px;
-      }
-    }
-
-    &:nth-child(2) {
-      text-align: center;
-    }
-
-    &.play {
-      img {
-        visibility: hidden;
-      }
-    }
-
-    border-bottom: 1px solid #282828;
-    padding: 10px;
-    vertical-align: middle;
-    text-align: left;
-    font-size: 12px;
   }
 `;

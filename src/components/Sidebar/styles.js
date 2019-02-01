@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Spinner } from '../Loading/styles';
+
 export const Container = styled.aside`
   height: 100%;
   width: 200px;
@@ -43,6 +45,17 @@ export const Nav = styled.ul`
 
       &:hover {
         color: #fff;
+      }
+    }
+
+    ${Spinner} {
+      display: inline-block;
+      position: relative;
+      top: 3px;
+      margin-left: 5px;
+
+      img {
+        height: 14px;
       }
     }
   }

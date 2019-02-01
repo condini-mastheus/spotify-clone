@@ -1,19 +1,46 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
+import { Creators as PlaylistsActions } from '../../store/ducks/playlists';
 
 import { Container, NewPlaylist, Nav } from './styles';
 
+import Loading from '../Loading';
+
 import addPlaylistIcon from '../../assets/images/add_playlist.svg';
 
-export default class Sidebar extends Component {
-  componentDidMount() {}
+class Sidebar extends Component {
+  static propTypes = {
+    playlists: PropTypes.shape({
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          title: PropTypes.string,
+        }),
+      ),
+      isLoading: PropTypes.bool,
+    }).isRequired,
+    getPlaylistsRequest: PropTypes.func.isRequired,
+  };
+
+  componentDidMount() {
+    const { getPlaylistsRequest } = this.props;
+
+    getPlaylistsRequest();
+  }
 
   render() {
+    const { playlists } = this.props;
+
     return (
       <Container>
         <div className="wrap">
           <Nav main>
             <li>
-              <a href="#test">Navegar</a>
+              <Link to="/">Navegar</Link>
             </li>
             <li>
               <a href="#test">Rádio</a>
@@ -55,14 +82,16 @@ export default class Sidebar extends Component {
 
           <Nav>
             <li>
-              <span>Playlists</span>
+              <span>
+                Playlists
+                {playlists.isLoading && <Loading />}
+              </span>
             </li>
-            <li>
-              <a href="#test">Playlist #1</a>
-            </li>
-            <li>
-              <a href="#test">Playlist #2</a>
-            </li>
+            {playlists.data.map(playlist => (
+              <li key={playlist.id}>
+                <Link to={`/playlists/${playlist.id}`}>{playlist.title}</Link>
+              </li>
+            ))}
           </Nav>
         </div>
 
@@ -74,3 +103,14 @@ export default class Sidebar extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  playlists: state.playlists,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(PlaylistsActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Sidebar);
