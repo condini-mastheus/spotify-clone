@@ -12,6 +12,7 @@ export const Container = styled.div`
 export const Current = styled.div`
   display: flex;
   align-items: center;
+  width: 220px;
 
   img {
     width: 48px;
@@ -72,6 +73,8 @@ export const Time = styled.div`
     font-size: 11px;
     margin: 0 2px;
     color: #b3b3b3;
+    width: 40px;
+    text-align: center;
   }
 `;
 

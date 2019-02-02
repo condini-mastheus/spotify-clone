@@ -104,44 +104,39 @@ export const Medias = styled.table`
       text-align: right;
     }
   }
+`;
 
-  tbody {
-    tr {
-      &:hover {
-        background: rgba(255, 255, 255, 0.05);
-      }
+export const Media = styled.tr`
+  background: ${props => (props.selected ? 'rgba(255, 255, 255, 0.03)' : 'transparent')};
 
-      &.listening {
-        td {
-          color: #1ed760;
-        }
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  td {
+    border-bottom: 1px solid #282828;
+    padding: 0 10px;
+    line-height: 40px;
+    text-align: left;
+    font-size: 13px;
+    color: ${props => (props.playing ? '#1ed760' : '#fff')}
+
+    &:first-child {
+      width: 80px;
+      text-align: right;
+      img {
+        position: relative;
+        top: 2px;
       }
     }
 
-    td {
-      border-bottom: 1px solid #282828;
-      padding: 0 10px;
-      line-height: 40px;
-      text-align: left;
-      font-size: 13px;
+    &:last-child {
+      text-align: right;
+    }
 
-      &:first-child {
-        width: 80px;
-        text-align: right;
-        img {
-          position: relative;
-          top: 2px;
-        }
-      }
-
-      &:last-child {
-        text-align: right;
-      }
-
-      &.play {
-        img {
-          visibility: hidden;
-        }
+    &.play {
+      img {
+        visibility: hidden;
       }
     }
   }
